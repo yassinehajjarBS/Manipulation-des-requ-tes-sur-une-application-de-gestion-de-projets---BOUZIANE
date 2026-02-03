@@ -1,0 +1,80 @@
+SELECT * FROM shelf;
+
+SELECT last_name, first_name FROM author;
+
+SELECT title, P_year FROM book;
+
+SELECT last_name, first_name, email FROM reader;
+
+SELECT * FROM book
+WHERE P_year > 1950;
+
+SELECT * FROM reader
+WHERE first_name LIKE 'M%';
+
+SELECT *
+FROM book
+ORDER BY P_year DESC;
+
+SELECT * FROM loan
+WHERE actual_return_date IS NULL;
+
+SELECT book.*, shelf.name AS shelf_name
+FROM book
+JOIN shelf ON book.shelf_id = shelf.shelf_id;
+
+SELECT 
+    book.title AS book_title,
+    author.first_name AS author_first_name,
+    author.last_name AS author_last_name
+FROM book
+JOIN book_author ON book.book_id = book_author.book_id
+JOIN author ON book_author.author_id = author.author_id;
+
+SELECT reader.*, loan.loan_id
+FROM reader
+JOIN loan ON reader.reader_id = loan.reader_id;
+
+SELECT s.name AS shelf_name, COUNT(b.book_id) AS book_count
+FROM shelf s
+LEFT JOIN book b ON s.shelf_id = b.shelf_id
+GROUP BY s.name;
+
+UPDATE reader
+SET email = "wahabi@gmail.com"
+WHERE reader_id = 2;
+
+UPDATE reader
+SET phone_num = '0734692310'
+WHERE cin = 'F15135';
+
+UPDATE book
+SET shelf_id = 3
+WHERE book_id = 5;
+SELECT 	book.*,
+		shelf.name
+FROM book
+JOIN shelf ON book.shelf_id = shelf.shelf_id;
+
+UPDATE loan 
+SET actual_return_date = CURRENT_DATE()
+WHERE loan_id = 11;
+
+UPDATE staff
+SET supervisor_id = 1 
+WHERE staff_id = 4;
+
+DELETE FROM loan
+WHERE loan_id = 10;
+
+DELETE FROM reader
+WHERE reader_id NOT IN(
+SELECT reader_id
+FROM loan
+);
+
+DELETE FROM book
+WHERE book_id NOT IN(
+SELECT book_id
+FROM loan
+);
